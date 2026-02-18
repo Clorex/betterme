@@ -1,4 +1,3 @@
-// src/components/layout/TopBar.tsx
 'use client';
 
 import { useRouter } from 'next/navigation';
@@ -32,36 +31,21 @@ export default function TopBar() {
   return (
     <header className="fixed left-0 right-0 top-0 z-50 pt-safe">
       <div className="mx-auto max-w-[480px]">
-        <div
-          className={cn(
-            'flex h-14 items-center justify-between px-4',
-            'bg-white/80 backdrop-blur-xl',
-            'dark:bg-brand-dark/80',
-            'transition-colors duration-300'
-          )}
-        >
-          {/* Greeting */}
+        <div className="flex h-14 items-center justify-between px-4 bg-white/80 backdrop-blur-xl dark:bg-brand-dark/80">
+
           <div className="flex flex-col">
             <span className="text-xs text-gray-500 dark:text-gray-400">
               {getGreeting()}
             </span>
-            <span className="font-heading text-base font-bold text-brand-dark dark:text-brand-white">
+            <span className="font-heading text-base font-bold">
               {firstName}! 👋
             </span>
           </div>
 
-          {/* Right Actions */}
           <div className="flex items-center gap-2 relative">
 
-            {/* Streak */}
             {streak > 0 && (
-              <div
-                className={cn(
-                  'flex items-center gap-1 rounded-full',
-                  'bg-orange-100 px-2.5 py-1',
-                  'dark:bg-orange-900/30'
-                )}
-              >
+              <div className="flex items-center gap-1 rounded-full bg-orange-100 px-2.5 py-1 dark:bg-orange-900/30">
                 <Flame className="h-4 w-4 text-orange-500" />
                 <span className="text-xs font-bold text-orange-600 dark:text-orange-400">
                   {streak}
@@ -69,24 +53,16 @@ export default function TopBar() {
               </div>
             )}
 
-            {/* Notifications */}
             <button
-              className={cn(
-                'relative flex h-10 w-10 items-center justify-center rounded-full',
-                'transition-colors hover:bg-gray-100 active:scale-95',
-                'dark:hover:bg-brand-surface'
-              )}
-              aria-label="Notifications"
+              className="relative flex h-10 w-10 items-center justify-center rounded-full hover:bg-gray-100 dark:hover:bg-brand-surface active:scale-95"
             >
               <Bell className="h-5 w-5 text-gray-600 dark:text-gray-300" />
               <span className="absolute right-2 top-2 h-2 w-2 rounded-full bg-red-500" />
             </button>
 
-            {/* Avatar */}
             <button
               onClick={() => setMenuOpen(!menuOpen)}
               className="h-9 w-9 overflow-hidden rounded-full bg-brand-lavender/30 active:scale-95"
-              aria-label="Profile menu"
             >
               {user?.photoURL ? (
                 <img
@@ -101,13 +77,12 @@ export default function TopBar() {
               )}
             </button>
 
-            {/* Dropdown */}
             <AnimatePresence>
               {menuOpen && (
                 <motion.div
-                  initial={{ opacity: 0, y: -10 }}
+                  initial={{ opacity: 0, y: -8 }}
                   animate={{ opacity: 1, y: 0 }}
-                  exit={{ opacity: 0, y: -10 }}
+                  exit={{ opacity: 0, y: -8 }}
                   className="absolute right-0 top-12 w-44 bg-white dark:bg-brand-surface rounded-xl shadow-xl border border-gray-200 dark:border-brand-surface-light overflow-hidden z-50"
                 >
                   <button
