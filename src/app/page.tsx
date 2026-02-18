@@ -1,65 +1,190 @@
-import Image from "next/image";
+﻿'use client';
 
-export default function Home() {
+import React, { useEffect, useState } from 'react';
+import { useRouter } from 'next/navigation';
+import { motion } from 'framer-motion';
+import { Sparkles, Dumbbell, Brain, Camera, ArrowRight } from 'lucide-react';
+import { Button, Card } from '@/components/ui/enhanced';
+import { useTheme } from '@/hooks/useTheme';
+import Image from 'next/image';
+
+export default function LandingPage() {
+  const router = useRouter();
+  useTheme();
+  const [activeFeature, setActiveFeature] = useState(0);
+
+  const features = [
+    {
+      icon: Camera,
+      title: 'Snap & Track',
+      description: 'Take a photo of your food and AI analyzes calories instantly',
+    },
+    {
+      icon: Dumbbell,
+      title: 'AI Trainer',
+      description: 'Personalized workouts that adapt to your progress',
+    },
+    {
+      icon: Brain,
+      title: '24/7 Coach',
+      description: 'Your AI buddy answers questions anytime, anywhere',
+    },
+    {
+      icon: Sparkles,
+      title: 'Smart Plans',
+      description: 'AI-generated meal plans tailored to your goals',
+    },
+  ];
+
+  useEffect(() => {
+    const interval = setInterval(() => {
+      setActiveFeature((prev) => (prev + 1) % features.length);
+    }, 4000);
+    return () => clearInterval(interval);
+  }, []);
+
   return (
-    <div className="flex min-h-screen items-center justify-center bg-zinc-50 font-sans dark:bg-black">
-      <main className="flex min-h-screen w-full max-w-3xl flex-col items-center justify-between py-32 px-16 bg-white dark:bg-black sm:items-start">
-        <Image
-          className="dark:invert"
-          src="/next.svg"
-          alt="Next.js logo"
-          width={100}
-          height={20}
-          priority
+    <div className="min-h-screen min-h-[100dvh] flex flex-col relative overflow-hidden bg-gradient-to-br from-brand-white via-white to-brand-lavender/10 dark:from-brand-dark dark:via-brand-dark dark:to-brand-purple/20">
+      
+      {/* Animated Background */}
+      <div className="absolute inset-0 overflow-hidden pointer-events-none">
+        <motion.div 
+          animate={{ 
+            scale: [1, 1.2, 1],
+            opacity: [0.1, 0.2, 0.1]
+          }}
+          transition={{ duration: 20, repeat: Infinity }}
+          className="absolute -top-1/2 -right-1/2 w-full h-full bg-brand-lavender/20 rounded-full blur-3xl" 
         />
-        <div className="flex flex-col items-center gap-6 text-center sm:items-start sm:text-left">
-          <h1 className="max-w-xs text-3xl font-semibold leading-10 tracking-tight text-black dark:text-zinc-50">
-            To get started, edit the page.tsx file.
-          </h1>
-          <p className="max-w-md text-lg leading-8 text-zinc-600 dark:text-zinc-400">
-            Looking for a starting point or more instructions? Head over to{" "}
-            <a
-              href="https://vercel.com/templates?framework=next.js&utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-              className="font-medium text-zinc-950 dark:text-zinc-50"
-            >
-              Templates
-            </a>{" "}
-            or the{" "}
-            <a
-              href="https://nextjs.org/learn?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-              className="font-medium text-zinc-950 dark:text-zinc-50"
-            >
-              Learning
-            </a>{" "}
-            center.
-          </p>
-        </div>
-        <div className="flex flex-col gap-4 text-base font-medium sm:flex-row">
-          <a
-            className="flex h-12 w-full items-center justify-center gap-2 rounded-full bg-foreground px-5 text-background transition-colors hover:bg-[#383838] dark:hover:bg-[#ccc] md:w-[158px]"
-            href="https://vercel.com/new?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
+      </div>
+
+      {/* Content */}
+      <div className="relative z-10 flex flex-col flex-1 px-6 pt-12 pb-8 max-w-md mx-auto">
+        
+        {/* Logo */}
+        <motion.div
+          initial={{ opacity: 0, y: -30 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.8 }}
+          className="flex flex-col items-center mb-8"
+        >
+          <motion.div 
+            whileHover={{ scale: 1.05 }}
+            className="relative w-24 h-24 rounded-3xl bg-gradient-to-br from-brand-purple to-brand-purple-mid flex items-center justify-center shadow-2xl shadow-brand-purple/30 mb-4 overflow-hidden"
           >
             <Image
-              className="dark:invert"
-              src="/vercel.svg"
-              alt="Vercel logomark"
-              width={16}
-              height={16}
+              src="/images/logo.png"
+              alt="BetterME Logo"
+              width={96}
+              height={96}
+              className="w-full h-full object-cover"
+              priority
             />
-            Deploy Now
-          </a>
-          <a
-            className="flex h-12 w-full items-center justify-center rounded-full border border-solid border-black/[.08] px-5 transition-colors hover:border-transparent hover:bg-black/[.04] dark:border-white/[.145] dark:hover:bg-[#1a1a1a] md:w-[158px]"
-            href="https://nextjs.org/docs?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
+          </motion.div>
+          
+          <h1 className="text-5xl font-heading font-black text-brand-purple dark:text-brand-lavender tracking-tight">
+            Better<span className="text-brand-lavender dark:text-white">ME</span>
+          </h1>
+        </motion.div>
+
+        {/* Tagline */}
+        <motion.div
+          initial={{ opacity: 0, y: 20 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.6, delay: 0.3 }}
+          className="text-center mb-10"
+        >
+          <h2 className="text-2xl font-heading font-bold mb-3 text-gray-800 dark:text-white leading-tight">
+            Your AI-Powered Body Transformation Buddy
+          </h2>
+          <p className="text-sm text-gray-500 dark:text-gray-400 max-w-[280px] mx-auto leading-relaxed">
+            Lose weight, build muscle, or get fit with AI that adapts to YOU
+          </p>
+        </motion.div>
+
+        {/* Feature Carousel */}
+        <motion.div
+          initial={{ opacity: 0 }}
+          animate={{ opacity: 1 }}
+          transition={{ duration: 0.6, delay: 0.5 }}
+          className="mb-10"
+        >
+          <Card className="h-48 flex flex-col items-center justify-center text-center p-6">
+            <motion.div 
+              key={activeFeature}
+              initial={{ opacity: 0, scale: 0.8 }}
+              animate={{ opacity: 1, scale: 1 }}
+              exit={{ opacity: 0, scale: 0.8 }}
+              transition={{ duration: 0.4 }}
+              className="flex flex-col items-center"
+            >
+              {React.createElement(features[activeFeature].icon, { 
+                className: "w-12 h-12 text-brand-purple mb-3" 
+              })}
+              <h3 className="text-lg font-bold text-brand-dark dark:text-white mb-2">
+                {features[activeFeature].title}
+              </h3>
+              <p className="text-sm text-gray-500 dark:text-gray-400">
+                {features[activeFeature].description}
+              </p>
+            </motion.div>
+          </Card>
+
+          {/* Dots */}
+          <div className="flex justify-center gap-2 mt-4">
+            {features.map((_, idx) => (
+              <button
+                key={idx}
+                onClick={() => setActiveFeature(idx)}
+                className={`transition-all duration-300 rounded-full ${
+                  activeFeature === idx 
+                    ? 'bg-brand-purple w-6 h-2' 
+                    : 'bg-gray-300 w-2 h-2'
+                }`}
+              />
+            ))}
+          </div>
+        </motion.div>
+
+        {/* CTA Buttons */}
+        <motion.div
+          initial={{ opacity: 0, y: 30 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.6, delay: 0.8 }}
+          className="mt-auto space-y-4"
+        >
+          <Button
+            variant="primary"
+            size="lg"
+            fullWidth
+            onClick={() => router.push('/register')}
+            rightIcon={<ArrowRight className="w-5 h-5" />}
           >
-            Documentation
-          </a>
-        </div>
-      </main>
+            Get Started Free
+          </Button>
+
+          <Button
+            variant="ghost"
+            size="md"
+            fullWidth
+            onClick={() => router.push('/login')}
+          >
+            Already have an account? 
+            <span className="font-bold ml-1 text-brand-purple dark:text-brand-lavender">
+              Login
+            </span>
+          </Button>
+
+          {/* Trust badges */}
+          <div className="flex items-center justify-center gap-4 pt-4 text-xs text-gray-400">
+            <span>Free Trial</span>
+            <span>•</span>
+            <span>Secure</span>
+            <span>•</span>
+            <span>4.9 Rating</span>
+          </div>
+        </motion.div>
+      </div>
     </div>
   );
 }

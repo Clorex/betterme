@@ -1,0 +1,41 @@
+﻿// src/components/ui/Toggle.tsx
+'use client';
+
+import * as Switch from '@radix-ui/react-switch';
+import { cn } from '@/lib/utils';
+
+interface ToggleProps {
+  description?: string;
+  checked: boolean;
+  onCheckedChange: (checked: boolean) => void;
+  disabled?: boolean;
+  label?: string;
+}
+
+export default function Toggle({ checked, onCheckedChange, disabled, label }: ToggleProps) {
+  return (
+    <div className="flex items-center gap-2">
+      <Switch.Root
+        checked={checked}
+        onCheckedChange={onCheckedChange}
+        disabled={disabled}
+        className={cn(
+          'relative inline-flex h-6 w-11 items-center rounded-full transition-colors',
+          'focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-brand-purple focus-visible:ring-offset-2',
+          'disabled:cursor-not-allowed disabled:opacity-50',
+          checked ? 'bg-brand-purple dark:bg-brand-lavender' : 'bg-gray-300 dark:bg-gray-600'
+        )}
+      >
+        <Switch.Thumb
+          className={cn(
+            'pointer-events-none block h-5 w-5 rounded-full bg-white shadow-md transition-transform',
+            checked ? 'translate-x-[22px]' : 'translate-x-[2px]'
+          )}
+        />
+      </Switch.Root>
+      {label && (
+        <span className="text-sm text-brand-dark dark:text-brand-white">{label}</span>
+      )}
+    </div>
+  );
+}

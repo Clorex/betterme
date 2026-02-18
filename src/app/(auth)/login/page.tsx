@@ -1,0 +1,142 @@
+"use client";
+
+import React, { useState } from "react";
+import { useRouter } from "next/navigation";
+import { motion } from "framer-motion";
+import { Mail, Lock, ArrowLeft } from "lucide-react";
+import { Button } from "@/components/ui/Button";
+import Input from "@/components/ui/Input";
+import { useAuth } from "@/hooks/useAuth";
+import Image from "next/image";
+import Link from "next/link";
+
+export default function LoginPage() {
+  const router = useRouter();
+  const { login, loading } = useAuth();
+
+  const [formData, setFormData] = useState({
+    email: "",
+    password: "",
+  });
+
+  const [errors, setErrors] = useState({
+    email: "",
+    password: "",
+  });
+
+  const validate = (): boolean => {
+    const newErrors = { email: "", password: "" };
+
+    if (!formData.email.trim()) {
+      newErrors.email = "Email is required";
+    } else if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(formData.email)) {
+      newErrors.email = "Invalid email format";
+    }
+
+    if (!formData.password) {
+      newErrors.password = "Password is required";
+    }
+
+    setErrors(newErrors);
+    return !Object.values(newErrors).some((e) => e);
+  };
+
+  const handleSubmit = async (e: React.FormEvent) => {
+    e.preventDefault();
+    if (!validate()) return;
+
+    try {
+      await login(formData.email.trim(), formData.password);
+    } catch {
+      // Error handled in useAuth
+    }
+  };
+
+  return (
+    <motion.div
+      initial={{ opacity: 0, x: -20 }}
+      animate={{ opacity: 1, x: 0 }}
+      transition={{ duration: 0.4 }}
+      className="min-h-screen min-h-[100dvh] flex flex-col px-6 py-8"
+    >
+      <button
+        onClick={() => router.push("/")}
+        className="flex items-center text-sm text-gray-500 hover:text-brand-purple dark:hover:text-brand-lavender transition-colors mb-6"
+      >
+        <ArrowLeft className="w-4 h-4 mr-1" />
+        Back
+      </button>
+
+      <div className="flex justify-center mb-6">
+        <div className="w-16 h-16 rounded-2xl bg-gradient-brand flex items-center justify-center shadow-glow overflow-hidden">
+          <Image
+            src="/images/logo.png"
+            alt="BetterME"
+            width={64}
+            height={64}
+            className="w-full h-full object-cover"
+          />
+        </div>
+      </div>
+
+      <div className="text-center mb-8">
+        <h1 className="text-2xl font-heading font-bold mb-1">Welcome Back</h1>
+        <p className="text-sm text-gray-500 dark:text-gray-400">
+          Login to continue your journey
+        </p>
+      </div>
+
+      <form onSubmit={handleSubmit} className="space-y-4 flex-1">
+        <Input
+          label="Email"
+          type="email"
+          placeholder="john@example.com"
+          value={formData.email}
+          onChange={(e) => setFormData((prev) => ({ ...prev, email: e.target.value }))}
+          error={errors.email}
+          icon={<Mail className="w-5 h-5" />}
+          autoComplete="email"
+        />
+
+        <div>
+          <Input
+            label="Password"
+            type="password"
+            placeholder="Enter your password"
+            value={formData.password}
+            onChange={(e) => setFormData((prev) => ({ ...prev, password: e.target.value }))}
+            error={errors.password}
+            icon={<Lock className="w-5 h-5" />}
+            autoComplete="current-password"
+          />
+          <div className="flex justify-end mt-1.5">
+            <Link
+              href="/forgot-password"
+              className="text-xs text-brand-purple dark:text-brand-lavender hover:underline"
+            >
+              Forgot password?
+            </Link>
+          </div>
+        </div>
+
+        <div className="pt-4">
+          <Button type="submit" variant="primary" size="lg" fullWidth loading={loading}>
+            Login
+          </Button>
+        </div>
+      </form>
+
+      <div className="text-center mt-6 pb-4">
+        <p className="text-sm text-gray-500 dark:text-gray-400">
+          Don&apos;t have an account?{" "}
+          <Link
+            href="/register"
+            className="font-semibold text-brand-purple dark:text-brand-lavender hover:underline"
+          >
+            Register
+          </Link>
+        </p>
+      </div>
+    </motion.div>
+  );
+}

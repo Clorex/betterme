@@ -1,0 +1,594 @@
+﻿// ========================================
+// USER TYPES
+// ========================================
+export interface UserProfile {
+  uid: string;
+  email: string;
+  displayName: string;
+  photoURL?: string;
+  role: "user" | "admin";
+  onboardingCompleted: boolean;
+  createdAt: string;
+  updatedAt: string;
+
+  // Onboarding Data
+  goal: GoalType;
+  gender: "male" | "female" | "other";
+  age: number;
+  height: number; // in cm
+  heightUnit: "cm" | "ft";
+  currentWeight: number;
+  targetWeight: number;
+  weightUnit: "kg" | "lbs";
+  activityLevel: ActivityLevel;
+  workoutLocation: WorkoutLocation[];
+  equipment: Equipment[];
+  experienceLevel: ExperienceLevel;
+  dietaryPreference: DietaryPreference;
+  allergies: Allergy[];
+  mealsPerDay: MealsPerDay;
+  cookingSkill: CookingSkill;
+  workoutDays: string[];
+  workoutDuration: WorkoutDuration;
+  preferredTime: PreferredTime;
+  notifications: NotificationPreferences;
+
+  // Calculated Metrics
+  bmr: number;
+  tdee: number;
+  dailyCalories: number;
+  macros: MacroTargets;
+  waterGoal: number; // glasses
+  bmi: number;
+  bmiCategory: string;
+  estimatedGoalDate: string;
+
+  // Subscription
+  subscription: Subscription;
+
+  // Streaks
+  streaks: {
+    current: number;
+    longest: number;
+    lastActiveDate: string;
+  };
+}
+
+export type GoalType =
+  | "fat_loss"
+  | "muscle_gain"
+  | "get_lean"
+  | "body_recomp"
+  | "strength"
+  | "general_fitness";
+
+export type ActivityLevel =
+  | "sedentary"
+  | "lightly_active"
+  | "moderately_active"
+  | "very_active"
+  | "extremely_active";
+
+export type WorkoutLocation = "home" | "gym" | "outdoor" | "office";
+
+export type Equipment =
+  | "none"
+  | "dumbbells"
+  | "barbell"
+  | "resistance_bands"
+  | "pullup_bar"
+  | "kettlebell"
+  | "cardio_machines"
+  | "full_gym";
+
+export type ExperienceLevel =
+  | "beginner"
+  | "some_experience"
+  | "intermediate"
+  | "advanced";
+
+export type DietaryPreference =
+  | "none"
+  | "vegetarian"
+  | "vegan"
+  | "keto"
+  | "pescatarian"
+  | "halal"
+  | "kosher"
+  | "other";
+
+export type Allergy =
+  | "nuts"
+  | "dairy"
+  | "gluten"
+  | "eggs"
+  | "shellfish"
+  | "soy"
+  | "none";
+
+export type MealsPerDay =
+  | "3_meals"
+  | "3_meals_1_snack"
+  | "3_meals_2_snacks"
+  | "2_meals_if"
+  | "flexible";
+
+export type CookingSkill = "beginner" | "basic" | "good" | "chef";
+
+export type WorkoutDuration = "15" | "30" | "45" | "60" | "90";
+
+export type PreferredTime = "morning" | "afternoon" | "evening" | "varies";
+
+export interface NotificationPreferences {
+  workoutReminders: boolean;
+  mealReminders: boolean;
+  waterReminders: boolean;
+  progressSummary: boolean;
+  motivational: boolean;
+}
+
+export interface MacroTargets {
+  calories?: number;
+  protein: number;
+  carbs: number;
+  fat: number;
+}
+
+// ========================================
+// SUBSCRIPTION TYPES
+// ========================================
+export interface Subscription {
+  plan: "free" | "trial" | "pro" | "premium";
+  status: "active" | "expired" | "cancelled";
+  startDate: string;
+  endDate: string;
+  trialUsed: boolean;
+  paymentRef?: string;
+  billingCycle?: "monthly" | "annual";
+}
+
+// ========================================
+// NUTRITION TYPES
+// ========================================
+export interface Food {
+  id: string;
+  name: string;
+  category: string;
+  servingSize: string;
+  servingWeight: number;
+  calories: number;
+  protein: number;
+  carbs: number;
+  fat: number;
+  fiber: number;
+  sugar: number;
+  sodium: number;
+  quantity?: number;
+}
+
+export interface Meal {
+  type: "breakfast" | "lunch" | "dinner" | "snack";
+  foods: FoodLogEntry[];
+  totalCalories: number;
+  totalProtein: number;
+  totalCarbs: number;
+  totalFat: number;
+}
+
+export interface FoodLogEntry extends Food {
+  loggedAt: string;
+  photos?: string[];
+  note?: string;
+  aiAnalysis?: AIFoodAnalysis;
+}
+
+export interface AIFoodAnalysis {
+  foods: {
+    name: string;
+    estimatedPortion: string;
+    cookingMethod: string;
+    calories: number;
+    protein: number;
+    carbs: number;
+    fat: number;
+    fiber: number;
+    sugar: number;
+    sodium: number;
+    confidence: number;
+  }[];
+  totalCalories: number;
+  totalProtein: number;
+  totalCarbs: number;
+  totalFat: number;
+  totalFiber: number;
+  totalSugar: number;
+  totalSodium: number;
+  healthRating: number;
+  suggestions: string;
+  mealType: string;
+}
+
+export interface DailyFoodLog {
+  date: string;
+  meals: Meal[];
+  waterIntake: number;
+  waterGoal: number;
+  totalCalories: number;
+  totalProtein: number;
+  totalCarbs: number;
+  totalFat: number;
+}
+
+// ========================================
+// WORKOUT TYPES
+// ========================================
+export interface Exercise {
+  id: string;
+  name: string;
+  muscleGroup: MuscleGroup;
+  secondaryMuscles?: MuscleGroup[];
+  equipment: Equipment;
+  difficulty: ExperienceLevel;
+  instructions: string;
+  tips: string[];
+  commonMistakes: string[];
+  videoURL?: string;
+  imageURL?: string;
+  alternatives: string[];
+  caloriesBurnedPerMinute: number;
+}
+
+export type MuscleGroup =
+  | "chest"
+  | "back"
+  | "shoulders"
+  | "biceps"
+  | "triceps"
+  | "quads"
+  | "hamstrings"
+  | "calves"
+  | "glutes"
+  | "core"
+  | "full_body";
+
+export interface WorkoutSet {
+  reps: number;
+  weight: number;
+  completed: boolean;
+  timestamp?: string;
+}
+
+export interface WorkoutExercise {
+  exerciseId: string;
+  name: string;
+  muscleGroup: MuscleGroup;
+  targetSets: number;
+  targetReps: string;
+  suggestedWeight: string;
+  restSeconds: number;
+  sets: WorkoutSet[];
+  instructions: string;
+  tips: string;
+  alternatives: string[];
+  completed: boolean;
+}
+
+export interface Workout {
+  id: string;
+  name: string;
+  targetMuscles: MuscleGroup[];
+  estimatedDuration: number;
+  estimatedCaloriesBurned: number;
+  warmup: { name: string; duration: string }[];
+  exercises: WorkoutExercise[];
+  cooldown: { name: string; duration: string }[];
+  coachNote: string;
+}
+
+export interface WorkoutLog {
+  id: string;
+  date: string;
+  workoutName: string;
+  programId?: string;
+  exercises: WorkoutExercise[];
+  duration: number;
+  totalVolume: number;
+  caloriesBurned: number;
+  rating?: number;
+  note?: string;
+  createdAt: string;
+}
+
+export interface Program {
+  id: string;
+  name: string;
+  description: string;
+  goal: GoalType;
+  duration: number; // weeks
+  difficulty: ExperienceLevel;
+  daysPerWeek: number;
+  minutesPerSession: number;
+  equipment: Equipment[];
+  weeks: ProgramWeek[];
+  imageURL?: string;
+}
+
+export interface ProgramWeek {
+  weekNumber: number;
+  days: ProgramDay[];
+}
+
+export interface ProgramDay {
+  dayNumber: number;
+  name: string;
+  workout: Workout;
+}
+
+// ========================================
+// PROGRESS TYPES
+// ========================================
+export interface WeightEntry {
+  date: string;
+  weight: number;
+  bodyFat?: number;
+  note?: string;
+  timeOfDay?: string;
+}
+
+export interface Measurement {
+  date: string;
+  chest?: number;
+  waist?: number;
+  hips?: number;
+  leftArm?: number;
+  rightArm?: number;
+  leftThigh?: number;
+  rightThigh?: number;
+  neck?: number;
+}
+
+export interface ProgressPhoto {
+  id: string;
+  photoURL: string;
+  type: "front" | "side" | "back";
+  date: string;
+  weight?: number;
+  note?: string;
+}
+
+export interface StepData {
+  date: string;
+  steps: number;
+  goal: number;
+  distance: number; // km
+  caloriesBurned: number;
+  hourlyBreakdown: number[];
+}
+
+export interface SleepData {
+  date: string;
+  bedtime: string;
+  wakeTime: string;
+  duration: number; // hours
+  quality: number; // 1-5
+  note?: string;
+}
+
+export interface MoodData {
+  date: string;
+  mood: number; // 1-5
+  energy: number; // 1-5
+  stress: number; // 1-5
+  note?: string;
+}
+
+export interface PersonalRecord {
+  type: "strength" | "cardio" | "body" | "consistency";
+  name: string;
+  value: number;
+  unit: string;
+  date: string;
+  previousBest?: number;
+}
+
+// ========================================
+// AI COACH TYPES
+// ========================================
+export interface ChatMessage {
+  id: string;
+  role: "user" | "assistant";
+  content: string;
+  timestamp: string;
+}
+
+// ========================================
+// MEAL PLAN TYPES
+// ========================================
+export interface MealPlan {
+  id: string;
+  userId: string;
+  weekStartDate: string;
+  days: MealPlanDay[];
+  groceryList: GroceryItem[];
+  createdAt: string;
+}
+
+export interface MealPlanDay {
+  day: string;
+  meals: {
+    breakfast: MealPlanMeal;
+    morningSnack?: MealPlanMeal;
+    lunch: MealPlanMeal;
+    afternoonSnack?: MealPlanMeal;
+    dinner: MealPlanMeal;
+  };
+  totalCalories: number;
+  totalProtein: number;
+  totalCarbs: number;
+  totalFat: number;
+}
+
+export interface MealPlanMeal {
+  name: string;
+  description: string;
+  prepTime: number;
+  cookTime: number;
+  calories: number;
+  protein: number;
+  carbs: number;
+  fat: number;
+  ingredients: { name: string; quantity: string; unit: string }[];
+  instructions: string[];
+  imageURL?: string;
+}
+
+export interface GroceryItem {
+  id: string;
+  name: string;
+  quantity: number;
+  unit: string;
+  category: GroceryCategory;
+  checked: boolean;
+}
+
+export type GroceryCategory =
+  | "produce"
+  | "meat_fish"
+  | "dairy"
+  | "bakery_grains"
+  | "pantry"
+  | "frozen"
+  | "other";
+
+// ========================================
+// RECIPE TYPES
+// ========================================
+export interface Recipe {
+  id: string;
+  name: string;
+  description: string;
+  cuisine: string;
+  category: string;
+  prepTime: number;
+  cookTime: number;
+  totalTime: number;
+  servings: number;
+  difficulty: "easy" | "medium" | "hard";
+  dietary: string[];
+  ingredients: { name: string; quantity: string; unit: string }[];
+  instructions: string[];
+  nutrition: {
+    calories: number;
+    protein: number;
+    carbs: number;
+    fat: number;
+    fiber: number;
+  };
+  imageURL?: string;
+  tags: string[];
+  rating: number;
+  reviewCount: number;
+}
+
+// ========================================
+// COMMUNITY TYPES
+// ========================================
+export interface Post {
+  id: string;
+  userId: string;
+  userName: string;
+  userPhoto?: string;
+  userGoal?: GoalType;
+  content: string;
+  images?: string[];
+  type: "progress" | "question" | "tip" | "milestone" | "transformation";
+  likes: string[]; // array of userIds
+  commentCount: number;
+  createdAt: string;
+}
+
+export interface Comment {
+  id: string;
+  postId: string;
+  userId: string;
+  userName: string;
+  userPhoto?: string;
+  content: string;
+  likes: string[];
+  createdAt: string;
+}
+
+// ========================================
+// ADMIN TYPES
+// ========================================
+export interface AdminWallet {
+  totalRevenue: number;
+  availableBalance: number;
+  pendingWithdrawals: number;
+  currency: string;
+}
+
+export interface Transaction {
+  id: string;
+  userId: string;
+  userName: string;
+  userEmail: string;
+  amount: number;
+  currency: string;
+  type: "subscription" | "renewal" | "refund" | "withdrawal";
+  status: "completed" | "pending" | "failed" | "refunded";
+  paymentRef: string;
+  plan?: string;
+  createdAt: string;
+}
+
+// ========================================
+// HABIT TYPES
+// ========================================
+export interface Habit {
+  id: string;
+  name: string;
+  icon: string;
+  description: string;
+  targetDays: number;
+  currentStreak: number;
+  longestStreak: number;
+  completedDates: string[];
+  mastered: boolean;
+  order: number;
+}
+
+export interface Challenge {
+  id: string;
+  name: string;
+  description: string;
+  type: "workout" | "nutrition" | "steps" | "consistency";
+  duration: number; // days
+  dailyTargets: { day: number; target: string; value: number }[];
+  joined: boolean;
+  startDate?: string;
+  completedDays: number[];
+  completed: boolean;
+}
+
+// ========================================
+// EDUCATION TYPES
+// ========================================
+export interface Lesson {
+  id: string;
+  module: string;
+  title: string;
+  readTime: number; // minutes
+  content: string;
+  keyTakeaways: string[];
+  quiz: QuizQuestion[];
+  completed: boolean;
+  order: number;
+}
+
+export interface QuizQuestion {
+  question: string;
+  options: string[];
+  correctAnswer: number;
+}
+
