@@ -28,9 +28,10 @@ export default function TopBar() {
   const streak = userProfile?.streaks?.current || 0;
 
   return (
-    <header className="fixed left-0 right-0 top-0 z-50 pt-safe">
+    <header className="sticky top-0 z-50 pt-safe bg-white/80 backdrop-blur-xl dark:bg-brand-dark/80">
+
       <div className="mx-auto max-w-[480px]">
-        <div className="flex h-14 items-center justify-between px-4 bg-white/80 backdrop-blur-xl dark:bg-brand-dark/80">
+        <div className="flex h-14 items-center justify-between px-4">
 
           <div className="flex flex-col">
             <span className="text-xs text-gray-500 dark:text-gray-400">
@@ -80,7 +81,7 @@ export default function TopBar() {
                   initial={{ opacity: 0, y: -8 }}
                   animate={{ opacity: 1, y: 0 }}
                   exit={{ opacity: 0, y: -8 }}
-                  className="absolute right-0 top-12 w-44 bg-white dark:bg-brand-surface rounded-xl shadow-xl border border-gray-200 dark:border-brand-surface-light overflow-hidden z-50"
+                  className="absolute right-0 top-14 w-44 bg-white dark:bg-brand-surface rounded-xl shadow-2xl border border-gray-200 dark:border-brand-surface-light overflow-hidden z-[9999]"
                 >
                   <button
                     onClick={() => {
