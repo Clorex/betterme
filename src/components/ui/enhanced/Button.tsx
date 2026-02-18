@@ -8,10 +8,10 @@ import { Loader2 } from 'lucide-react';
 type MotionButtonProps = Omit<HTMLMotionProps<'button'>, 'children'>;
 
 interface ButtonProps extends MotionButtonProps {
-  children?: React.ReactNode; // ✅ explicitly restrict children
+  children?: React.ReactNode;
   variant?: 'primary' | 'secondary' | 'outline' | 'ghost' | 'danger';
   size?: 'sm' | 'md' | 'lg';
-  isLoading?: boolean;
+  loading?: boolean; // ✅ using loading (not isLoading)
   leftIcon?: React.ReactNode;
   rightIcon?: React.ReactNode;
   fullWidth?: boolean;
@@ -23,7 +23,7 @@ const Button = forwardRef<HTMLButtonElement, ButtonProps>(
       className,
       variant = 'primary',
       size = 'md',
-      isLoading,
+      loading,
       leftIcon,
       rightIcon,
       fullWidth,
@@ -64,17 +64,17 @@ const Button = forwardRef<HTMLButtonElement, ButtonProps>(
           fullWidth && 'w-full',
           className
         )}
-        disabled={disabled || isLoading}
+        disabled={disabled || loading}
         whileTap={{ scale: 0.97 }}
         transition={{ duration: 0.1 }}
         {...props}
       >
         <span className="absolute inset-0 -translate-x-full bg-gradient-to-r from-transparent via-white/20 to-transparent transition-transform duration-700" />
 
-        {isLoading && <Loader2 className="w-4 h-4 animate-spin" />}
-        {!isLoading && leftIcon}
+        {loading && <Loader2 className="w-4 h-4 animate-spin" />}
+        {!loading && leftIcon}
         <span className="relative z-10">{children}</span>
-        {!isLoading && rightIcon}
+        {!loading && rightIcon}
       </motion.button>
     );
   }
