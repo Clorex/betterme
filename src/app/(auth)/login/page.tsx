@@ -47,9 +47,7 @@ export default function LoginPage() {
 
     try {
       await login(formData.email.trim(), formData.password);
-    } catch {
-      // handled in useAuth
-    }
+    } catch {}
   };
 
   return (
@@ -91,8 +89,8 @@ export default function LoginPage() {
         </p>
       </div>
 
-      {/* Form */}
-      <form onSubmit={handleSubmit} className="space-y-4 flex-1">
+      {/* ✅ FORM WITHOUT flex-1 */}
+      <form onSubmit={handleSubmit} className="space-y-4">
         <Input
           label="Email"
           type="email"
@@ -136,8 +134,8 @@ export default function LoginPage() {
           </div>
         </div>
 
-        {/* ✅ FIXED BUTTON */}
-        <div className="pt-4">
+        {/* ✅ LOGIN BUTTON NOW VISIBLE */}
+        <div className="pt-6">
           <Button
             type="submit"
             variant="primary"
@@ -151,7 +149,7 @@ export default function LoginPage() {
       </form>
 
       {/* Footer */}
-      <div className="text-center mt-6 pb-4">
+      <div className="text-center mt-8">
         <p className="text-sm text-gray-500">
           Don&apos;t have an account?{" "}
           <Link
