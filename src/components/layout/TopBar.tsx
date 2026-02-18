@@ -1,11 +1,10 @@
-'use client';
+﻿'use client';
 
 import { useRouter } from 'next/navigation';
 import { Bell, Flame, LogOut, User, Settings } from 'lucide-react';
 import { useAuthStore } from '@/store/authStore';
 import { useAuth } from '@/hooks/useAuth';
 import { useMemo, useState } from 'react';
-import { cn } from '@/lib/utils';
 import { AnimatePresence, motion } from 'framer-motion';
 
 function getGreeting(): string {
@@ -53,9 +52,7 @@ export default function TopBar() {
               </div>
             )}
 
-            <button
-              className="relative flex h-10 w-10 items-center justify-center rounded-full hover:bg-gray-100 dark:hover:bg-brand-surface active:scale-95"
-            >
+            <button className="relative flex h-10 w-10 items-center justify-center rounded-full hover:bg-gray-100 dark:hover:bg-brand-surface active:scale-95">
               <Bell className="h-5 w-5 text-gray-600 dark:text-gray-300" />
               <span className="absolute right-2 top-2 h-2 w-2 rounded-full bg-red-500" />
             </button>
