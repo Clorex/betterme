@@ -19,7 +19,8 @@ export const viewport: Viewport = {
 
 export const metadata: Metadata = {
   title: "BetterME - Your AI Body Transformation Buddy",
-  description: "Transform your body with AI-powered workouts, nutrition tracking, meal plans, and a 24/7 personal coach.",
+  description:
+    "Transform your body with AI-powered workouts, nutrition tracking, meal plans, and a 24/7 personal coach.",
   manifest: "/manifest.json",
   appleWebApp: {
     capable: true,
@@ -32,7 +33,11 @@ export const metadata: Metadata = {
   },
 };
 
-export default function RootLayout({ children }: { children: React.ReactNode }) {
+export default function RootLayout({
+  children,
+}: {
+  children: React.ReactNode;
+}) {
   return (
     <html lang="en" className="custom-scrollbar">
       <head>
@@ -41,8 +46,9 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
         <link rel="apple-touch-icon" href="/images/logo.png" />
       </head>
 
-      <body className="font-body antialiased">
-        <div className="max-w-[480px] mx-auto min-h-screen min-h-[100dvh] relative bg-brand-white dark:bg-brand-dark overflow-x-hidden">
+      {/* ✅ FIXED BODY */}
+      <body className="font-body antialiased min-h-screen overflow-x-hidden">
+        <div className="max-w-[480px] mx-auto min-h-screen relative bg-brand-white dark:bg-brand-dark">
           <AuthInit>
             <AuthDebugReporter />
             <AuthGuard>
@@ -51,27 +57,7 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
           </AuthInit>
         </div>
 
-        <Toaster
-          position="top-center"
-          toastOptions={{
-            duration: 3000,
-            style: {
-              background: "var(--color-surface)",
-              color: "var(--color-text)",
-              borderRadius: "16px",
-              padding: "12px 20px",
-              fontSize: "14px",
-              fontFamily: "system-ui, -apple-system, Segoe UI, Roboto, Arial, sans-serif",
-              boxShadow: "0 4px 12px rgba(0,0,0,0.15)",
-            },
-            success: {
-              iconTheme: { primary: "#22C55E", secondary: "#fff" },
-            },
-            error: {
-              iconTheme: { primary: "#EF4444", secondary: "#fff" },
-            },
-          }}
-        />
+        <Toaster position="top-center" />
       </body>
     </html>
   );
