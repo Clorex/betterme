@@ -4,7 +4,7 @@ import React, { useState } from "react";
 import { useRouter } from "next/navigation";
 import { motion } from "framer-motion";
 import { Mail, Lock, ArrowLeft } from "lucide-react";
-import { Button } from "@/components/ui/Button";
+import Button from "@/components/ui/enhanced/Button";
 import Input from "@/components/ui/Input";
 import { useAuth } from "@/hooks/useAuth";
 import Image from "next/image";
@@ -59,10 +59,10 @@ export default function LoginPage() {
       transition={{ duration: 0.4 }}
       className="min-h-screen flex flex-col px-6 py-8"
     >
-      {/* Back Button */}
+      {/* Back */}
       <button
         onClick={() => router.push("/")}
-        className="flex items-center text-sm text-gray-500 hover:text-brand-purple dark:hover:text-brand-lavender transition-colors mb-6"
+        className="flex items-center text-sm text-gray-500 hover:text-brand-purple transition-colors mb-6"
       >
         <ArrowLeft className="w-4 h-4 mr-1" />
         Back
@@ -70,7 +70,7 @@ export default function LoginPage() {
 
       {/* Logo */}
       <div className="flex justify-center mb-6">
-        <div className="w-16 h-16 rounded-2xl bg-gradient-brand flex items-center justify-center shadow-glow overflow-hidden">
+        <div className="w-16 h-16 rounded-2xl bg-gradient-brand flex items-center justify-center overflow-hidden">
           <Image
             src="/images/logo.png"
             alt="BetterME"
@@ -86,7 +86,7 @@ export default function LoginPage() {
         <h1 className="text-2xl font-heading font-bold mb-1">
           Welcome Back
         </h1>
-        <p className="text-sm text-gray-500 dark:text-gray-400">
+        <p className="text-sm text-gray-500">
           Login to continue your journey
         </p>
       </div>
@@ -129,21 +129,21 @@ export default function LoginPage() {
           <div className="flex justify-end mt-1.5">
             <Link
               href="/forgot-password"
-              className="text-xs text-brand-purple dark:text-brand-lavender hover:underline"
+              className="text-xs text-brand-purple hover:underline"
             >
               Forgot password?
             </Link>
           </div>
         </div>
 
-        {/* ✅ Fixed Button */}
+        {/* ✅ FIXED BUTTON */}
         <div className="pt-4">
           <Button
             type="submit"
             variant="primary"
             size="lg"
             fullWidth
-            isLoading={loading}
+            loading={loading}
           >
             Login
           </Button>
@@ -152,11 +152,11 @@ export default function LoginPage() {
 
       {/* Footer */}
       <div className="text-center mt-6 pb-4">
-        <p className="text-sm text-gray-500 dark:text-gray-400">
+        <p className="text-sm text-gray-500">
           Don&apos;t have an account?{" "}
           <Link
             href="/register"
-            className="font-semibold text-brand-purple dark:text-brand-lavender hover:underline"
+            className="font-semibold text-brand-purple hover:underline"
           >
             Register
           </Link>
