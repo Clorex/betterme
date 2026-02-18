@@ -48,7 +48,7 @@ export default function LoginPage() {
     try {
       await login(formData.email.trim(), formData.password);
     } catch {
-      // Error handled in useAuth
+      // handled in useAuth
     }
   };
 
@@ -57,8 +57,9 @@ export default function LoginPage() {
       initial={{ opacity: 0, x: -20 }}
       animate={{ opacity: 1, x: 0 }}
       transition={{ duration: 0.4 }}
-      className="min-h-screen min-h-[100dvh] flex flex-col px-6 py-8"
+      className="min-h-screen flex flex-col px-6 py-8"
     >
+      {/* Back Button */}
       <button
         onClick={() => router.push("/")}
         className="flex items-center text-sm text-gray-500 hover:text-brand-purple dark:hover:text-brand-lavender transition-colors mb-6"
@@ -67,6 +68,7 @@ export default function LoginPage() {
         Back
       </button>
 
+      {/* Logo */}
       <div className="flex justify-center mb-6">
         <div className="w-16 h-16 rounded-2xl bg-gradient-brand flex items-center justify-center shadow-glow overflow-hidden">
           <Image
@@ -79,20 +81,29 @@ export default function LoginPage() {
         </div>
       </div>
 
+      {/* Title */}
       <div className="text-center mb-8">
-        <h1 className="text-2xl font-heading font-bold mb-1">Welcome Back</h1>
+        <h1 className="text-2xl font-heading font-bold mb-1">
+          Welcome Back
+        </h1>
         <p className="text-sm text-gray-500 dark:text-gray-400">
           Login to continue your journey
         </p>
       </div>
 
+      {/* Form */}
       <form onSubmit={handleSubmit} className="space-y-4 flex-1">
         <Input
           label="Email"
           type="email"
           placeholder="john@example.com"
           value={formData.email}
-          onChange={(e) => setFormData((prev) => ({ ...prev, email: e.target.value }))}
+          onChange={(e) =>
+            setFormData((prev) => ({
+              ...prev,
+              email: e.target.value,
+            }))
+          }
           error={errors.email}
           icon={<Mail className="w-5 h-5" />}
           autoComplete="email"
@@ -104,11 +115,17 @@ export default function LoginPage() {
             type="password"
             placeholder="Enter your password"
             value={formData.password}
-            onChange={(e) => setFormData((prev) => ({ ...prev, password: e.target.value }))}
+            onChange={(e) =>
+              setFormData((prev) => ({
+                ...prev,
+                password: e.target.value,
+              }))
+            }
             error={errors.password}
             icon={<Lock className="w-5 h-5" />}
             autoComplete="current-password"
           />
+
           <div className="flex justify-end mt-1.5">
             <Link
               href="/forgot-password"
@@ -119,13 +136,21 @@ export default function LoginPage() {
           </div>
         </div>
 
+        {/* ✅ Fixed Button */}
         <div className="pt-4">
-          <Button type="submit" variant="primary" size="lg" fullWidth loading={loading}>
+          <Button
+            type="submit"
+            variant="primary"
+            size="lg"
+            fullWidth
+            isLoading={loading}
+          >
             Login
           </Button>
         </div>
       </form>
 
+      {/* Footer */}
       <div className="text-center mt-6 pb-4">
         <p className="text-sm text-gray-500 dark:text-gray-400">
           Don&apos;t have an account?{" "}
